@@ -1,0 +1,107 @@
+#include <iostream>
+#include <vector>
+#include <stdlib.h>
+
+void greet(){
+  std::cout << "Welcome to the tig tag toe games\n\n";
+  std::cout << "Rules: Player 1 go first and use 'x'. Player 2 use 'o'\n\n";
+  }
+
+
+char play_board1[3][3] = {{'1','2','3'},{'4','5','6'},{'7','8','9'}}; 
+int player_choice;
+int row,col;
+char turn = 'x';
+void board(){
+ std::cout << play_board1[0][0] << " | " << play_board1[0][1] << " | " << play_board1[0][2] <<" |\n";
+std::cout<< play_board1[1][0] << " | " << play_board1[1][1] << " | " << play_board1[1][2] <<" |\n";
+std::cout << play_board1[2][0] << " | " << play_board1[2][1] << " | " << play_board1[2][2] <<" |\n";
+std::cout << "\n\n";
+}
+ 
+void play(){
+  if (turn == 'x'){
+    std::cout << "Player 1 turn. Please select where to put 'x' by entering the square number: ";
+  
+  }
+  else if (turn =='o'){
+    std::cout << "Player 2 turn. Please select where to put 'o' by entering the square number: ";
+     
+  }
+  std::cin >> player_choice;
+
+  switch (player_choice){
+    case 1: row = 0; col = 0; break;
+    case 2: row = 0; col = 1; break;
+    case 3: row = 0; col = 2; break;
+    case 4: row = 1; col = 0; break;
+    case 5: row = 1; col = 1; break;
+    case 6: row = 1; col = 2; break;
+    case 7: row = 2; col = 0; break;
+    case 8: row = 2; col = 1; break;
+    case 9: row = 2; col = 2; break;
+    default:
+    std::cout << "Invalid square number.\n";
+  }
+  if (turn == 'x' && play_board1[row][col] != 'x' && play_board1[row][col] != 'o') {
+    play_board1[row][col] = 'x';
+    turn = 'o';
+  }
+  else if (turn == 'o' && play_board1[row][col] != 'o' && play_board1[row][col] != 'x'){
+    play_board1[row][col] = 'o';
+    turn = 'x';
+  }
+  else {
+    std::cout << "This box is already filled. Please select again. \n";
+    play();
+  }
+board();
+
+}
+
+bool condition = false;
+bool win_con() {
+  // winning condition for row and columnn
+   for (int i = 0; i < 3; i++){
+     if (play_board1[i][0] == play_board1[i][1] && play_board1[i][1] == play_board1[i][2] ||  play_board1[0][i] == play_board1[1][i] && play_board1[1][i] == play_board1[2][i]){
+    return false;
+     }
+   }
+// winning condition for diagonal
+if (play_board1[0][0] == play_board1[1][1] && play_board1[1][1] == play_board1[2][2] || play_board1[0][2] == play_board1[1][1] && play_board1[1][1] == play_board1[2][0]){
+    return false;
+  }
+// check that if the game is ended or not
+for (int a = 0; a < 3; a++){
+  for (int b = 0; b < 3; b++){
+    if (play_board1[a][b] != 'x' && play_board1[a][b] != 'o'){
+      return true; // the game continue
+    }
+  }
+}
+// the game end because of draw
+  condition = true;
+  return false;
+
+}
+// project start here
+int main() {
+// greeting
+greet();
+board();
+// play
+while (win_con()){
+  play();
+  win_con(); 
+}
+if (turn == 'o' && condition == false){
+  std::cout << "Congratulations!! Player 1 wins. Game over.";
+  }
+else if (turn =='x' && condition == false){
+   std::cout << "Congratulations!! Player 2 wins. Game over";
+}
+else {
+  std::cout << "Draw. Game over";  
+
+}
+}
